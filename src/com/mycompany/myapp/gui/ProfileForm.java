@@ -34,6 +34,7 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.mycompany.myapp.services.ServiceAbonnement;
 
 /**
  * The user profile form
@@ -47,7 +48,7 @@ public class ProfileForm extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Profile");
+        setTitle("Abonnement");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
@@ -55,7 +56,7 @@ public class ProfileForm extends BaseForm {
         tb.addSearchCommand(e -> {});
         
         
-        Image img = res.getImage("profile-background.jpg");
+        Image img = res.getImage("abon1.png");
         if(img.getHeight() > Display.getInstance().getDisplayHeight() / 3) {
             img = img.scaledHeight(Display.getInstance().getDisplayHeight() / 3);
         }
@@ -74,33 +75,14 @@ public class ProfileForm extends BaseForm {
                     GridLayout.encloseIn(3, 
                             facebook,
                             FlowLayout.encloseCenter(
-                                new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond")),
+                                ),
                             twitter
                     )
                 )
+                
         ));
-
-        TextField username = new TextField("sandeep");
-        username.setUIID("TextFieldBlack");
-        addStringValue("Username", username);
-
-        TextField email = new TextField("sandeep@gmail.com", "E-Mail", 20, TextField.EMAILADDR);
-        email.setUIID("TextFieldBlack");
-        addStringValue("E-Mail", email);
-        
-        TextField password = new TextField("sandeep", "Password", 20, TextField.PASSWORD);
-        password.setUIID("TextFieldBlack");
-        addStringValue("Password", password);
-
-        CheckBox cb1 = CheckBox.createToggle(res.getImage("on-off-off.png"));
-        cb1.setUIID("Label");
-        cb1.setPressedIcon(res.getImage("on-off-on.png"));
-        CheckBox cb2 = CheckBox.createToggle(res.getImage("on-off-off.png"));
-        cb2.setUIID("Label");
-        cb2.setPressedIcon(res.getImage("on-off-on.png"));
-        
-        addStringValue("Facebook", FlowLayout.encloseRightMiddle(cb1));
-        addStringValue("Twitter", FlowLayout.encloseRightMiddle(cb2));
+         new ListAbonnementForm().show();
+         System.out.println(ServiceAbonnement.getInstance().getAllAbonnement().toString());       
     }
     
     private void addStringValue(String s, Component v) {
@@ -108,4 +90,5 @@ public class ProfileForm extends BaseForm {
                 add(BorderLayout.CENTER, v));
         add(createLineSeparator(0xeeeeee));
     }
+    
 }

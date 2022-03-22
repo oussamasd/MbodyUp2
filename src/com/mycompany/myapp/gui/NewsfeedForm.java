@@ -42,6 +42,8 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.mycompany.myapp.services.ServiceAbonnement;
+import com.mycompany.myapp.services.ServiceOffre;
 
 /**
  * The newsfeed form
@@ -55,7 +57,7 @@ public class NewsfeedForm extends BaseForm {
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
-        setTitle("Newsfeed");
+        setTitle("MbodyUp");
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
@@ -65,7 +67,7 @@ public class NewsfeedForm extends BaseForm {
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
-        addTab(swipe, res.getImage("news-item.jpg"), spacer1, "15 Likes  ", "85 Comments", "Integer ut placerat purued non dignissim neque. ");
+        addTab(swipe, res.getImage("s11.jpg"), spacer1, "15 Likes  ", "85 Comments", "Salle de sport et de fitness");
         addTab(swipe, res.getImage("dog.jpg"), spacer2, "100 Likes  ", "66 Comments", "Dogs are cute: story at 11");
                 
         swipe.setUIID("Container");
@@ -137,11 +139,6 @@ public class NewsfeedForm extends BaseForm {
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
-        
-        addButton(res.getImage("news-item-1.jpg"), "Morbi per tincidunt tellus sit of amet eros laoreet.", false, 26, 32);
-        addButton(res.getImage("news-item-2.jpg"), "Fusce ornare cursus masspretium tortor integer placera.", true, 15, 21);
-        addButton(res.getImage("news-item-3.jpg"), "Maecenas eu risus blanscelerisque massa non amcorpe.", false, 36, 15);
-        addButton(res.getImage("news-item-4.jpg"), "Pellentesque non lorem diam. Proin at ex sollicia.", false, 11, 9);
     }
     
     private void updateArrowPosition(Button b, Label arrow) {
