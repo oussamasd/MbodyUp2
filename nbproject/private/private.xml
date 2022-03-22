@@ -4,7 +4,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/shai/dev/CodenameOne/NBPlugin/MbodyUp2/build.xml</file>
+            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/AddTaskForm.java</file>
+            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/entities/Reclamation.java</file>
+            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/services/ServiceTask.java</file>
         </group>
     </open-files>
 </project-private>
