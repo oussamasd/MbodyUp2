@@ -42,6 +42,10 @@ import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
+import com.mycompany.myapp.entities.Activitie;
+import com.mycompany.myapp.entities.Exercice;
+import com.mycompany.myapp.services.ServiceActivitie;
+import com.mycompany.myapp.services.ServiceExercice;
 
 /**
  * The newsfeed form
@@ -137,12 +141,25 @@ public class NewsfeedForm extends BaseForm {
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
+          for (Activitie cat : ServiceActivitie.getInstance().getAllActivity()) {
+             /*System.out.println(cat.getId());
+            System.out.println(cat.getNom_Exercice());
+            System.out.println(cat.getDure_Exercice());
+            System.out.println(cat.getDescription_Exercice());
+            System.out.println(cat.getCategory().getNom_Cat());*/
+                         System.out.println(cat.toString());
+             addButton(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), false, 26, 32);
+
+
+        }
         
-        addButton(res.getImage("news-item-1.jpg"), "Morbi per tincidunt tellus sit of amet eros laoreet.", false, 26, 32);
+        /*
+          addButton(res.getImage("news-item-1.jpg"), "Morbi per tincidunt tellus sit of amet eros laoreet.", false, 26, 32);
         addButton(res.getImage("news-item-2.jpg"), "Fusce ornare cursus masspretium tortor integer placera.", true, 15, 21);
         addButton(res.getImage("news-item-3.jpg"), "Maecenas eu risus blanscelerisque massa non amcorpe.", false, 36, 15);
         addButton(res.getImage("news-item-4.jpg"), "Pellentesque non lorem diam. Proin at ex sollicia.", false, 11, 9);
-    }
+        */
+}
     
     private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
