@@ -32,7 +32,7 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.layouts.Layout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-
+import com.mycompany.myapp.services.ServiceTask;
 /**
  * Base class for the forms with common functionality
  *
@@ -81,9 +81,11 @@ public class BaseForm extends Form {
                 FlowLayout.encloseCenterBottom(
                         new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond"))
         ));
-        
+        Form current;
         tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show());
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
+        tb.addMaterialCommandToSideMenu("Afficher Reclamation", FontImage.MATERIAL_EXIT_TO_APP, e-> new ListTasksForm(res).show());
+        tb.addMaterialCommandToSideMenu("Ajouter Reclamation", FontImage.MATERIAL_EXIT_TO_APP, e-> new AddTaskForm(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
     }
 }
