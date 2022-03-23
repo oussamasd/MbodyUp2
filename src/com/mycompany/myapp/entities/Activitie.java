@@ -37,6 +37,8 @@ public class Activitie {
     
     
     private Collection <String> images;
+    
+    private int nbr_comnt;
 
     public Activitie() {
     }
@@ -125,10 +127,21 @@ public class Activitie {
         this.images = images;
     }
 
+    public int getNbr_comnt() {
+        return nbr_comnt;
+    }
+
+    public void setNbr_comnt(int nbr_comnt) {
+        this.nbr_comnt = nbr_comnt;
+    }
+
     @Override
     public String toString() {
-        return "Activitie{" + "id=" + id + ", nom_Act=" + nom_Act + ", date_Act=" + date_Act + ", temp_act=" + temp_act + ", description_Act=" + description_Act + ", category=" + category + ", exercices=" + exercices + ", images=" + images + '}';
+        return "Activitie{" + "id=" + id + ", nom_Act=" + nom_Act + ", date_Act=" + date_Act + ", temp_act=" + temp_act + ", description_Act=" + description_Act + ", category=" + category + ", exercices=" + exercices + ", images=" + images + ", nbr_comnt=" + nbr_comnt + '}';
     }
+    
+
+   
     
     
     

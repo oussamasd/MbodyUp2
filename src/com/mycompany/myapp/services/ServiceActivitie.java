@@ -83,7 +83,7 @@ public class ServiceActivitie {
                     
                 t.setCategory(c);
                 java.util.List<Map<String,Object>> listEx=(java.util.List<Map<String,Object>>) obj.get("exercices");
-                System.out.println("/////////////////////////"+listEx);
+            
                  Collection<Exercice> ActEx= new ArrayList();
                  if(listEx != null){
                      for(Map<String,Object> item : listEx){
@@ -107,7 +107,22 @@ public class ServiceActivitie {
                  }
              
                 t.setExercices(ActEx);
+                 java.util.List<Map<String,Object>> listImg=(java.util.List<Map<String,Object>>) obj.get("images");
+                 Collection<String> ActImg= new ArrayList();
+                 if(listImg != null){
+                     for(Map<String,Object> item : listImg){
+                     try{
                 
+                     ActImg.add(item.get("url").toString());
+                     
+                     }catch(Exception ex){
+                         System.out.println("exercice list");
+                     }
+                 }
+                     
+                 }
+                 t.setImages(ActImg);
+                t.setNbr_comnt((int)Float.parseFloat(obj.get("nbrCmnt").toString()));
                 
                 
                 activities.add(t);
@@ -116,7 +131,7 @@ public class ServiceActivitie {
             
             
         } catch (IOException ex) {
-            System.out.println("error in parseExercice");
+            System.out.println("error in parseActivity");
         }
         return activities;
     }

@@ -19,6 +19,7 @@
 
 package com.mycompany.myapp.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
@@ -27,6 +28,7 @@ import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
@@ -35,6 +37,7 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -43,9 +46,8 @@ import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Activitie;
-import com.mycompany.myapp.entities.Exercice;
 import com.mycompany.myapp.services.ServiceActivitie;
-import com.mycompany.myapp.services.ServiceExercice;
+import java.io.IOException;
 
 /**
  * The newsfeed form
@@ -54,7 +56,7 @@ import com.mycompany.myapp.services.ServiceExercice;
  */
 public class NewsfeedForm extends BaseForm {
 
-    public NewsfeedForm(Resources res) {
+    public NewsfeedForm(Resources res)  {
         super("Newsfeed", BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
@@ -142,14 +144,15 @@ public class NewsfeedForm extends BaseForm {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
           for (Activitie cat : ServiceActivitie.getInstance().getAllActivity()) {
-             /*System.out.println(cat.getId());
-            System.out.println(cat.getNom_Exercice());
-            System.out.println(cat.getDure_Exercice());
-            System.out.println(cat.getDescription_Exercice());
-            System.out.println(cat.getCategory().getNom_Cat());*/
-                         System.out.println(cat.toString());
-             addButton(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), false, 26, 32);
-
+             
+             System.out.println(cat.toString());
+            
+            try {
+                showAllact(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), true, 26, cat.getNbr_comnt() , cat.getNom_Act(), cat.getDate_Act());
+            } catch (IOException ex) {
+                
+            }
+            
 
         }
         
@@ -205,7 +208,7 @@ public class NewsfeedForm extends BaseForm {
 
         swipe.addTab("", page1);
     }
-    
+    //khatya hedhi 
    private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount) {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
@@ -238,6 +241,66 @@ public class NewsfeedForm extends BaseForm {
                ));
        add(cnt);
        image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
+   }
+   //hedhi tdhaher les activites lkol 
+   private void showAllact(Image img, String title, boolean liked, int likeCount, int commentCount,String Nom , String date) throws IOException {
+       int height = Display.getInstance().convertToPixels(11.5f);
+       int width = Display.getInstance().convertToPixels(14f);
+       EncodedImage enc;
+       Image imgs;
+       ImageViewer imgv;
+       try{
+       enc = EncodedImage.create("/load.png");
+       String url="https://image.shutterstock.com/image-photo/picture-beautiful-view-birds-260nw-1836263689.jpg";
+       imgs=URLImage.createToStorage(enc, url, url,URLImage.RESIZE_SCALE );
+       }catch(IOException e){
+           System.out.println("oooooo");
+       imgs=img;}
+       
+       Button image = new Button(imgs.fill(width, height));
+       image.setUIID("Label");
+       Container cnt = BorderLayout.west(image);
+       cnt.setLeadComponent(image);
+       TextArea ta = new TextArea(title);
+       
+       TextArea t = new TextArea(Nom);
+       
+       TextArea dt = new TextArea(date);
+       t.setUIID("NewsTopLine");
+     t.setEditable(false);
+     dt.setUIID("NewsBottomLine");
+    
+     dt.setEditable(false);
+       ta.setUIID("NewsTopLine");
+       ta.setEditable(false);
+       
+       
+
+
+       Label likes = new Label(likeCount + " Likes  ", "NewsBottomLine");
+       likes.setTextPosition(RIGHT);
+       if(!liked) {
+           FontImage.setMaterialIcon(likes, FontImage.MATERIAL_FAVORITE);
+       } else {
+           Style s = new Style(likes.getUnselectedStyle());
+           s.setFgColor(0xff2d55);
+           FontImage heartImage = FontImage.createMaterial(FontImage.MATERIAL_FAVORITE, s);
+           likes.setIcon(heartImage);
+       }
+       Label comments = new Label(commentCount + " Comments", "NewsBottomLine");
+       FontImage.setMaterialIcon(likes, FontImage.MATERIAL_CHAT);
+       
+       
+       cnt.add(BorderLayout.CENTER, 
+               BoxLayout.encloseY(
+                       t,
+                       dt,
+                       ta,
+                       BoxLayout.encloseX(likes, comments)
+                       
+               ));
+       add(cnt);
+       image.addActionListener(e -> ToastBar.showMessage(Nom, FontImage.MATERIAL_INFO));
    }
     
     private void bindButtonSelection(Button b, Label arrow) {
