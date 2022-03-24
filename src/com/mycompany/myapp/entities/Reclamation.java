@@ -11,19 +11,18 @@ package com.mycompany.myapp.entities;
  */
 public class Reclamation {
     private int id;
-    private String nom;
-    private String description;
-    
+    private String nom,description;
+
     public Reclamation() {
     }
-
-    public Reclamation(String nom, String description) {
+    
+    public Reclamation(int id, String nom, String description) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
     }
 
-    public Reclamation(int id, String nom, String description) {
-        this.id = id;
+    public Reclamation(String nom, String description) {
         this.nom = nom;
         this.description = description;
     }
@@ -52,9 +51,7 @@ public class Reclamation {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Reclamation{" + "id=" + id + ", nom=" + nom + ", description=" + description + '}';
-    }
+    
+    
     
 }
