@@ -15,6 +15,7 @@ import java.io.IOException;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.io.NetworkEvent;
 import com.mycompany.myapp.entities.Exercice;
+import com.mycompany.myapp.gui.DetailForm;
 import com.mycompany.myapp.services.ServiceExercice;
 
 /**
@@ -64,6 +65,7 @@ public class MainApp {
 
         }*/
         new WalkthruForm(theme).show();
+        //new DetailForm(theme).show();
     }
 
     public void stop() {

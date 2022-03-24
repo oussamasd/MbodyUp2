@@ -143,18 +143,26 @@ public class NewsfeedForm extends BaseForm {
         addOrientationListener(e -> {
             updateArrowPosition(barGroup.getRadioButton(barGroup.getSelectedIndex()), arrow);
         });
+        //**********************************************************************************
           for (Activitie cat : ServiceActivitie.getInstance().getAllActivity()) {
              
              System.out.println(cat.toString());
+             //String c = cat.getImages().stream().findFirst().get();
+             String firstpict;
+             if(cat.getImages().isEmpty())
+                 firstpict="http://127.0.0.1:8000/uploads/noimg.jpg";
+             else
+                 firstpict =  cat.getImages().iterator().next();
             
             try {
-                showAllact(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), true, 26, cat.getNbr_comnt() , cat.getNom_Act(), cat.getDate_Act());
+                showAllact(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), true, 26, cat.getNbr_comnt() , cat.getNom_Act(), cat.getDate_Act(),firstpict , res);
             } catch (IOException ex) {
                 
             }
             
 
         }
+          //***********************************************************************
         
         /*
           addButton(res.getImage("news-item-1.jpg"), "Morbi per tincidunt tellus sit of amet eros laoreet.", false, 26, 32);
@@ -243,7 +251,7 @@ public class NewsfeedForm extends BaseForm {
        image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
    }
    //hedhi tdhaher les activites lkol 
-   private void showAllact(Image img, String title, boolean liked, int likeCount, int commentCount,String Nom , String date) throws IOException {
+   private void showAllact(Image img, String title, boolean liked, int likeCount, int commentCount,String Nom , String date,String url,Resources res) throws IOException {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
        EncodedImage enc;
@@ -251,7 +259,8 @@ public class NewsfeedForm extends BaseForm {
        ImageViewer imgv;
        try{
        enc = EncodedImage.create("/load.png");
-       String url="https://image.shutterstock.com/image-photo/picture-beautiful-view-birds-260nw-1836263689.jpg";
+       //https://image.shutterstock.com/image-photo/picture-beautiful-view-birds-260nw-1836263689.jpg
+       //String url="http://127.0.0.1:8000/uploads/3d2ed39926f71268c09b412b0526b12d.jpeg";
        imgs=URLImage.createToStorage(enc, url, url,URLImage.RESIZE_SCALE );
        }catch(IOException e){
            System.out.println("oooooo");
@@ -300,7 +309,7 @@ public class NewsfeedForm extends BaseForm {
                        
                ));
        add(cnt);
-       image.addActionListener(e -> ToastBar.showMessage(Nom, FontImage.MATERIAL_INFO));
+       image.addActionListener(e -> new DetailForm(res).show());
    }
     
     private void bindButtonSelection(Button b, Label arrow) {
