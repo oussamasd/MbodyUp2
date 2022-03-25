@@ -5,6 +5,7 @@
  */
 package com.mycompany.myapp.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.components.ScaleImageLabel;
 import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
@@ -15,6 +16,7 @@ import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
@@ -34,7 +36,10 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Activitie;
+import com.mycompany.myapp.services.ServiceActivitie;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 
@@ -44,13 +49,18 @@ import java.io.IOException;
  */
 public class DetailForm extends BaseForm {
 
-    public DetailForm(Resources res ) {
+    public DetailForm(Resources res , Activitie act ) {
          super("Details",new BoxLayout(BoxLayout.Y_AXIS));
 //         Button back = new Button();
 //         back.setIcon(FontImage.createMaterial(FontImage.MATERIAL_SAVE, back.getUnselectedStyle()));
      
 
 
+//        Activitie act = activ;
+//        Collection <String> a = new ArrayList<>();
+//        a.add("http://127.0.0.1:8000/uploads/3d2ed39926f71268c09b412b0526b12d.jpeg");
+//        a.add("https://image.shutterstock.com/image-photo/picture-beautiful-view-birds-260nw-1836263689.jpg");
+//        act.setImages(a);
 
          //////////////////
         Toolbar tb = new Toolbar(true);
@@ -65,13 +75,44 @@ public class DetailForm extends BaseForm {
        // tb.addSearchCommand(e -> {});
         //pictures swap
         Tabs swipe = new Tabs();
+      //  ArrayList<String> actimg = act.getImages();
         /*
         Label spacer1 = new Label();
         Label spacer2 = new Label();
         Label sp3 = new Label();*/
-        for(int i =0 ; i<5;i++){
-         addTab(swipe, res.getImage("news-item.jpg"), new Label());
+       Collection <Image> picts = new ArrayList<>();
+        if(act.getImages()== null){
+           picts.add(res.getImage("news-item.jpg"));
+           
+        }else{
+             EncodedImage enc;
+       Image imgs = null;
+       ImageViewer imgv;
+       for(String item : act.getImages()){
+            try{
+       enc = EncodedImage.create("/load.png");
+       //https://image.shutterstock.com/image-photo/picture-beautiful-view-birds-260nw-1836263689.jpg
+       //String url="http://127.0.0.1:8000/uploads/3d2ed39926f71268c09b412b0526b12d.jpeg";
+       imgs=URLImage.createToStorage(enc, item, item,URLImage.RESIZE_SCALE );
+       
+       }catch(IOException e){
+           System.out.println("oooooo");
+       //imgs=img;
+       }
+       picts.add(imgs);
+       
+       
+       }
+       
+      
+       
+            
+          }
+        for(Image pic : picts){
+         addTab(swipe, pic, new Label());
         }
+    
+        
         /*addTab(swipe, res.getImage("news-item.jpg"), spacer1);
         addTab(swipe, res.getImage("dog.jpg"), spacer2);
         addTab(swipe, res.getImage("news-item.jpg"), sp3);*/
@@ -111,6 +152,8 @@ public class DetailForm extends BaseForm {
                 rbs[ii].setSelected(true);
             }
         });
+                
+                
         
        // Component.setSameSize(radioContainer, spacer1, spacer2 );
         add(LayeredLayout.encloseIn( swipe, radioContainer));

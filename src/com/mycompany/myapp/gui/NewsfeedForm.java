@@ -155,7 +155,7 @@ public class NewsfeedForm extends BaseForm {
                  firstpict =  cat.getImages().iterator().next();
             
             try {
-                showAllact(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), true, 26, cat.getNbr_comnt() , cat.getNom_Act(), cat.getDate_Act(),firstpict , res);
+                showAllact(res.getImage("news-item-1.jpg"), cat.getDescription_Act(), true, 26, cat.getNbr_comnt() , cat.getNom_Act(), cat.getDate_Act(),firstpict , res ,cat);
             } catch (IOException ex) {
                 
             }
@@ -251,7 +251,7 @@ public class NewsfeedForm extends BaseForm {
        image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
    }
    //hedhi tdhaher les activites lkol 
-   private void showAllact(Image img, String title, boolean liked, int likeCount, int commentCount,String Nom , String date,String url,Resources res) throws IOException {
+   private void showAllact(Image img, String title, boolean liked, int likeCount, int commentCount,String Nom , String date,String url,Resources res , Activitie act) throws IOException {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
        EncodedImage enc;
@@ -309,7 +309,9 @@ public class NewsfeedForm extends BaseForm {
                        
                ));
        add(cnt);
-       image.addActionListener(e -> new DetailForm(res).show());
+       image.addActionListener(e -> {act.setImages(ServiceActivitie.getInstance().getAllActivityImage(act.getId()));
+           new DetailForm(res,act).show();
+       });
    }
     
     private void bindButtonSelection(Button b, Label arrow) {

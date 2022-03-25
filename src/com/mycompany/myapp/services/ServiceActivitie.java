@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class ServiceActivitie {
       public ArrayList<Activitie> activities;
-    
+    public ArrayList<String> pictss;
     public static ServiceActivitie instance=null;
     public boolean resultOK;
     private ConnectionRequest req;
@@ -41,7 +41,7 @@ public class ServiceActivitie {
         }
         return instance;
     }
-   
+   ////////////////////////////////////Affiche Activite/////////////////////////////////////////////
       public ArrayList<Activitie> parseActivity(String jsonText){
         try {
             System.out.println("yimchiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
@@ -107,20 +107,22 @@ public class ServiceActivitie {
                  }
              
                 t.setExercices(ActEx);
-                 java.util.List<Map<String,Object>> listImg=(java.util.List<Map<String,Object>>) obj.get("images");
+                // java.util.List<Map<String,Object>> listImg=(java.util.List<Map<String,Object>>) obj.get("images");
                  Collection<String> ActImg= new ArrayList();
-                 if(listImg != null){
-                     for(Map<String,Object> item : listImg){
-                     try{
-                
-                     ActImg.add(item.get("url").toString());
-                     
-                     }catch(Exception ex){
-                         System.out.println("exercice list");
-                     }
-                 }
-                     
-                 }
+//                 if(listImg != null){
+//                     for(Map<String,Object> item : listImg){
+//                     try{
+//                
+//                     ActImg.add(item.get("url").toString());
+//                     
+//                     }catch(Exception ex){
+//                         System.out.println("exercice list");
+//                     }
+//                 }
+//                     
+//                 }
+                    if(obj.get("images")!=null)
+                        ActImg.add(obj.get("images").toString());
                  t.setImages(ActImg);
                 t.setNbr_comnt((int)Float.parseFloat(obj.get("nbrCmnt").toString()));
                 
@@ -128,11 +130,15 @@ public class ServiceActivitie {
                 activities.add(t);
                 
             }
+           
             
             
         } catch (IOException ex) {
             System.out.println("error in parseActivity");
         }
+         for(Activitie act : activities){
+                    System.out.println(getAllActivityImage(act.getId()));
+                }
         return activities;
     }
        public ArrayList<Activitie> getAllActivity(){
@@ -150,8 +156,48 @@ public class ServiceActivitie {
             }
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
-           System.out.println("hahah");
+           
         return activities;
+    }
+      //////////////////////////////////////////////////////////// 
+       public ArrayList<String> parseActivityImg(String jsonText){
+           ArrayList<String> imgs=new ArrayList<>();
+        try {
+            
+            
+            JSONParser j = new JSONParser();
+            Map<String,Object> activitiesimgListJson = 
+               j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            
+            java.util.List<Map<String,Object>> list = (java.util.List<Map<String,Object>>)activitiesimgListJson.get("root");
+            for(Map<String,Object> obj : list){
+            
+            imgs.add(obj.get("url").toString());
+            }
+         
+        } catch (IOException ex) {
+            System.out.println("error in parseActivity");
+        }
+        return imgs;
+    }
+        public ArrayList<String> getAllActivityImage(int idact){
+          
+        req = new ConnectionRequest();
+        //String url = Statics.BASE_URL+"/tasks/";
+        String url = Statics.BASE_URL+"exercice";
+        System.out.println("===>"+url);
+        req.setUrl("http://127.0.0.1:8000/activity/json/img/"+idact);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+              pictss = parseActivityImg(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+           System.out.println("hahah");
+        return pictss;
     }
     
 }
