@@ -36,7 +36,9 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Activitie;
+import com.mycompany.myapp.entities.Exercice;
 import com.mycompany.myapp.services.ServiceActivitie;
+import com.mycompany.myapp.services.ServiceExercice;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,6 +53,8 @@ public class DetailForm extends BaseForm {
 
     public DetailForm(Resources res , Activitie act ) {
          super("Details",new BoxLayout(BoxLayout.Y_AXIS));
+         act.setExercices(ServiceExercice.getInstance().getAllExercices(act.getId()));
+         System.out.println(act.getExercices());
 //         Button back = new Button();
 //         back.setIcon(FontImage.createMaterial(FontImage.MATERIAL_SAVE, back.getUnselectedStyle()));
      
@@ -63,6 +67,13 @@ public class DetailForm extends BaseForm {
 //        act.setImages(a);
 
          //////////////////
+         Label nom = new Label(act.getNom_Act());
+         TextArea details = new TextArea(act.getCategory()+"|"+act.getDate_Act()+","+act.getTemp_act()+"|"+"paticiper par");
+         TextArea desc = new TextArea(act.getDescription_Act());
+         desc.setUIID("NewsTopLine");
+         details.setUIID("NewsTopLine");
+         desc.setEditable(false);
+         details.setEditable(false);
         Toolbar tb = new Toolbar(true);
         setToolbar(tb);
         getTitleArea().setUIID("Container");
@@ -157,6 +168,14 @@ public class DetailForm extends BaseForm {
         
        // Component.setSameSize(radioContainer, spacer1, spacer2 );
         add(LayeredLayout.encloseIn( swipe, radioContainer));
+        add(nom);
+        add(details);
+        add(desc);
+        for(Exercice e : act.getExercices()){
+        Exerciceget(res.getImage("news-item-2.jpg"), e.getNom_Exercice(),e.getDure_Exercice(), e.getDescription_Exercice());
+        }
+        
+        
 //        add(back);
         
       
@@ -215,5 +234,36 @@ public class DetailForm extends BaseForm {
             }
         });
     }
+    private void Exerciceget(Image img, String title, String tempex, String desc) {
+       int height = Display.getInstance().convertToPixels(11.5f);
+       int width = Display.getInstance().convertToPixels(14f);
+       Button image = new Button(img.fill(width, height));
+       image.setUIID("Label");
+       Container cnt = BorderLayout.west(image);
+       cnt.setLeadComponent(image);
+       TextArea ta = new TextArea(title);
+       TextArea tp = new TextArea(tempex);
+       TextArea dec = new TextArea(desc);
+       
+       ta.setUIID("NewsTopLine");
+       tp.setUIID("NewsTopLine");
+       dec.setUIID("NewsTopLine");
+       ta.setEditable(false);
+       tp.setEditable(false);
+       dec.setEditable(false);
+
+   
+       
+       
+       cnt.add(BorderLayout.CENTER, 
+               BoxLayout.encloseY(
+                       ta,
+                       BoxLayout.encloseX(),
+                       tp,
+                       dec
+               ));
+       add(cnt);
+       image.addActionListener(e -> ToastBar.showMessage(title, FontImage.MATERIAL_INFO));
+   }
     
 }

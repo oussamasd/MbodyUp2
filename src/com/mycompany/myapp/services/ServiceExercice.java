@@ -91,12 +91,12 @@ public class ServiceExercice {
         }
         return exercices;
     }
-       public ArrayList<Exercice> getAllExercices(){
+       public ArrayList<Exercice> getAllExercices(int id){
         req = new ConnectionRequest();
         //String url = Statics.BASE_URL+"/tasks/";
         String url = Statics.BASE_URL+"exercice";
         System.out.println("===>"+url);
-        req.setUrl("http://localhost:8000/exercice");
+        req.setUrl("http://127.0.0.1:8000/exercice/"+id);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
