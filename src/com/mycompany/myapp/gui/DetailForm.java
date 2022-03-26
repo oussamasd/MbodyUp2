@@ -25,6 +25,7 @@ import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
+import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
@@ -180,7 +181,7 @@ public class DetailForm extends BaseForm {
         //////////////////////Commentaire////////////////////
         showComm(act);
         TextArea com = new TextArea();
-        
+       // TextField com=new TextField("hhh");
         Button send = new Button("send");
         addAll(com , send);
         
