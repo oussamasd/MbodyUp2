@@ -39,8 +39,10 @@ import com.mycompany.myapp.services.ServiceReclamation;
  */
 public class AjoutReclamationForm extends BaseForm{
     Form current;
+    Reclamation rec = new Reclamation();
     public AjoutReclamationForm(Resources res)
     {
+        
         super("Newsfeed",BoxLayout.y());
         Toolbar tb = new Toolbar(true);
         current = this;
@@ -48,7 +50,7 @@ public class AjoutReclamationForm extends BaseForm{
         getTitleArea().setUIID("Container");
         setTitle("Ajout Reclamation");
         getContentPane().setScrollVisible(false);
-        
+        super.addSideMenu(res);
         tb.addSearchCommand((e)->{
             
         });
@@ -103,22 +105,21 @@ public class AjoutReclamationForm extends BaseForm{
         ButtonGroup barGroup = new ButtonGroup();
         RadioButton mesListes = RadioButton.createToggle("Mes Reclamations", barGroup);
         mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Autres", barGroup);
+        RadioButton liste = RadioButton.createToggle("Modifier Reclamation", barGroup);
         liste.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
+        RadioButton partage = RadioButton.createToggle("Ajouter Reclamation", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
 
         mesListes.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
-        
-        //  ListReclamationForm a = new ListReclamationForm(res);
-          //  a.show();
-            refreshTheme();
+               new ListReclamationForm(res).show();
         });
-
+        
+        liste.addActionListener((e) -> {
+              new ModifierReclamationForm(res,rec).show();
+        });
+        
         add(LayeredLayout.encloseIn(
                 GridLayout.encloseIn(3, mesListes, liste, partage),
                 FlowLayout.encloseBottom(arrow)
@@ -156,7 +157,7 @@ public class AjoutReclamationForm extends BaseForm{
         
         btnAjouter.addActionListener((e)->{
             try {
-                if(nom.getText() =="" || description.getText()=="")
+                if(nom.getText().equals("") || description.getText().equals(""))
                 {
                     Dialog.show("Veuillez Verifier les données","","Annuler","OK");
                 }

@@ -17,6 +17,8 @@ import static com.codename1.ui.Component.LEFT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
+import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
@@ -25,6 +27,7 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
@@ -42,6 +45,7 @@ import java.util.ArrayList;
  */
 public class ListReclamationForm extends BaseForm{
     Form current;
+    Reclamation rec = new Reclamation();
     public ListReclamationForm(Resources res)
     {
         
@@ -52,7 +56,7 @@ public class ListReclamationForm extends BaseForm{
         getTitleArea().setUIID("Container");
         setTitle("Ajout Reclamation");
         getContentPane().setScrollVisible(false);
-        
+        super.addSideMenu(res);
         tb.addSearchCommand((e)->{
             
         });
@@ -105,22 +109,20 @@ public class ListReclamationForm extends BaseForm{
         add(LayeredLayout.encloseIn(swipe, radioContainer));
 
         ButtonGroup barGroup = new ButtonGroup();
-        RadioButton mesListes = RadioButton.createToggle("Mes Reclamations", barGroup);
+        RadioButton mesListes = RadioButton.createToggle("Ajouter Reclamation", barGroup);
         mesListes.setUIID("SelectBar");
-        RadioButton liste = RadioButton.createToggle("Autres", barGroup);
+        RadioButton liste = RadioButton.createToggle("Modifier Reclamation", barGroup);
         liste.setUIID("SelectBar");
-        RadioButton partage = RadioButton.createToggle("Reclamer", barGroup);
+        RadioButton partage = RadioButton.createToggle("Mes Reclamations", barGroup);
         partage.setUIID("SelectBar");
         Label arrow = new Label(res.getImage("news-tab-down-arrow.png"), "Container");
 
 
         mesListes.addActionListener((e) -> {
-               InfiniteProgress ip = new InfiniteProgress();
-        final Dialog ipDlg = ip.showInifiniteBlocking();
-        
-        //  ListReclamationForm a = new ListReclamationForm(res);
-          //  a.show();
-            refreshTheme();
+               new AjoutReclamationForm(res).show();
+        });
+         liste.addActionListener((e) -> {
+                new ModifierReclamationForm(res,rec).show();
         });
 
         add(LayeredLayout.encloseIn(
@@ -146,7 +148,17 @@ public class ListReclamationForm extends BaseForm{
         ArrayList<Reclamation>list = ServiceReclamation.getInstance().affichageReclamations();
         for(Reclamation rec : list)
         {
-            addButton(rec.getNom(),rec.getDescription(),rec);
+            String urlImage ="profile-background.jpg";
+            
+            Image placeHolder = Image.createImage(120,90);
+            EncodedImage enc = EncodedImage.createFromImage(placeHolder,false);
+            URLImage urlim = URLImage.createToStorage(enc, urlImage, urlImage,URLImage.RESIZE_SCALE);
+            
+            addButton(urlim,rec,res);
+            ScaleImageLabel image = new ScaleImageLabel(urlim);
+            
+            Container containerImg = new Container();
+            image.setBackgroundType(Style.BACKGROUND_IMAGE_SCALED_FILL);
         }
         
     }
@@ -202,15 +214,70 @@ public class ListReclamationForm extends BaseForm{
         
     }
 
-    private void addButton(String nom, String description, Reclamation rec) {
+    private void addButton(Image img, Reclamation rec,Resources res) {
         
-        Container cnt = new Container() ;
+        int height = Display.getInstance().convertToPixels(11.5f);
+        int width = Display.getInstance().convertToPixels(14f);
         
-        TextArea ta = new TextArea(nom);
-        ta.setUIID("NewsTopLine");
-        ta.setEditable(false);
+        Button image = new Button(img.fill(width,height));
+        image.setUIID("Label");
+        Container cnt = BorderLayout.west(image) ;
         
-        cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(ta));
+        Label nomTxt = new Label("nom : "+rec.getNom(),"NewsTopLine2");
+        Label descriptionTxt = new Label("description : "+rec.getDescription(),"NewsTopLine2");
+        
+        createLineSeparator();
+        
+       
+        
+//        cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(BoxLayout.encloseX(descriptionTxt)));
+        
+//butt supprimer
+        Label lSupprimer = new Label(" Supprimer ");
+        lSupprimer.setUIID("NewsTopLine");
+        Style supprimerStyle = new Style(lSupprimer.getUnselectedStyle());
+        supprimerStyle.setFgColor(0xf21f1f);
+        FontImage supprimerImage = FontImage.createMaterial(FontImage.MATERIAL_DELETE, supprimerStyle);
+        lSupprimer.setIcon(supprimerImage);
+        lSupprimer.setTextPosition(RIGHT);
+        //click butt suprim
+        lSupprimer.addPointerPressedListener(l->{
+            Dialog dig = new Dialog("supression");
+            if(dig.show("Supression","Vous Voulez supprimer cette Reclamation ?","Annuler","oui"))
+            {
+                dig.dispose();
+            }
+            else{
+                dig.dispose();
+                if(ServiceReclamation.getInstance().deleteReclamation(rec.getId()))
+                {
+                    new ListReclamationForm(res).show();
+                }
+            }
+        });
+        
+        //Update Icon
+        Label lModifier = new Label(" Modifier ");
+        lModifier.setUIID("NewsTopLine");
+        Style ModifierStyle = new Style(lModifier.getUnselectedStyle());
+        ModifierStyle.setFgColor(0xf7ad02);
+        
+        FontImage mFontImage = FontImage.createMaterial(FontImage.MATERIAL_MODE_EDIT, ModifierStyle);
+        lModifier.setIcon(mFontImage);
+        lModifier.setTextPosition(LEFT);
+        
+        
+        lModifier.addPointerPressedListener(l->{
+           // System.out.println("hello update");
+           new ModifierReclamationForm(res,rec).show();
+        });
+        
+        
+        cnt.add(BorderLayout.CENTER,BoxLayout.encloseY(
+                BoxLayout.encloseX(nomTxt,lModifier,lSupprimer),
+                BoxLayout.encloseX(descriptionTxt)
+                ));
+        
         add(cnt);
     }
 }

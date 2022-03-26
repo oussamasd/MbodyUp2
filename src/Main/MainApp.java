@@ -55,8 +55,8 @@ public class MainApp {
             return;
         }
         System.out.println(ServiceReclamation.getInstance().affichageReclamations().toString());
-        new AjoutReclamationForm(theme).show();
-//        new WalkthruForm(theme).show();
+     new AjoutReclamationForm(theme).show();
+  //    new WalkthruForm(theme).show();
     }
 
     public void stop() {

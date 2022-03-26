@@ -23,6 +23,8 @@ import java.util.Map;
 public class ServiceReclamation {
     public static ServiceReclamation instance = null;
     
+    public static boolean resultOk=true;
+    //initialaisation de la connection request
     private ConnectionRequest req;
     
     public static ServiceReclamation getInstance()
@@ -122,6 +124,37 @@ public class ServiceReclamation {
         
           NetworkManager.getInstance().addToQueueAndWait(req);
           return reclamation;
+    }
+    
+    public boolean deleteReclamation(int id)
+    {
+        String url  = Statics.BASE_URL+"/delete?id="+id;
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                req.removeResponseCodeListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOk;
+    }
+    
+    public boolean modifierReclamation(Reclamation reclamation)
+    {
+        String url = Statics.BASE_URL +"/updateReclamation?id="+reclamation.getId()+"&nom="+reclamation.getNom()+"&description="+reclamation.getDescription();
+        req.setUrl(url);
+        
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOk = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+          NetworkManager.getInstance().addToQueueAndWait(req);
+          return resultOk;
     }
     
 }
