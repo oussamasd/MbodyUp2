@@ -36,8 +36,10 @@ import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
 import com.codename1.ui.util.Resources;
 import com.mycompany.myapp.entities.Activitie;
+import com.mycompany.myapp.entities.Commentaire;
 import com.mycompany.myapp.entities.Exercice;
 import com.mycompany.myapp.services.ServiceActivitie;
+import com.mycompany.myapp.services.ServiceCommentaire;
 import com.mycompany.myapp.services.ServiceExercice;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class DetailForm extends BaseForm {
          System.out.println(act.getExercices());
 //         Button back = new Button();
 //         back.setIcon(FontImage.createMaterial(FontImage.MATERIAL_SAVE, back.getUnselectedStyle()));
-     
+        System.out.println("//////////////////Commentair"+ServiceCommentaire.getInstance().getAllCommentaires(act.getId()));
 
 
 //        Activitie act = activ;
@@ -171,14 +173,43 @@ public class DetailForm extends BaseForm {
         add(nom);
         add(details);
         add(desc);
+        add("*****Exercice*****");
         for(Exercice e : act.getExercices()){
         Exerciceget(res.getImage("news-item-2.jpg"), e.getNom_Exercice(),e.getDure_Exercice(), e.getDescription_Exercice());
         }
+        //////////////////////Commentaire////////////////////
+        showComm(act);
+        TextArea com = new TextArea();
         
+        Button send = new Button("send");
+        addAll(com , send);
         
 //        add(back);
         
       
+    }
+    private void showComm(Activitie act){
+     ArrayList<Commentaire> com = ServiceCommentaire.getInstance().getAllCommentaires(act.getId());
+     
+       
+      
+       Container cnt = new Container();
+       String tit = "*****Commentaire*****";
+        cnt.add(tit);
+     for (Commentaire c : com){
+     Label nom = new Label(c.getIduser()+" : "+c.getDatecmnt());
+     TextArea text = new TextArea(c.getText());
+     nom.setUIID("NewsTopLine");
+     text.setUIID("WelcomeMessage");
+     text.setEditable(false);
+     cnt.add( 
+               BoxLayout.encloseY(
+                     nom,
+                       text
+               ));
+     }
+   
+    add(cnt);
     }
      private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
