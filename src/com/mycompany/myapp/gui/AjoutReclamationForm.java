@@ -59,7 +59,7 @@ public class AjoutReclamationForm extends BaseForm{
         Label s1 = new Label();
         Label s2 = new Label();
         
-       addTab(swipe,s1,res.getImage("profile-background.jpg"),"","",res);
+       addTab(swipe,s1,res.getImage("gestion-des-réclamations.jpg"),"","",res);
         
         //
         
@@ -181,6 +181,11 @@ public class AjoutReclamationForm extends BaseForm{
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        });
+         Button btnfcbk = new Button("Facebook");
+        addStringValue("", btnfcbk);
+        btnfcbk.addActionListener(e->{
+             String url = "https://www.facebook.com";
         });
     }
 

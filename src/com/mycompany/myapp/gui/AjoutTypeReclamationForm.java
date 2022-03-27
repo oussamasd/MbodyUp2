@@ -62,7 +62,7 @@ public class AjoutTypeReclamationForm extends BaseForm{
         Label s1 = new Label();
         Label s2 = new Label();
         
-       addTab(swipe,s1,res.getImage("profile-background.jpg"),"","",res);
+       addTab(swipe,s1,res.getImage("on.png"),"","",res);
        
        //
         

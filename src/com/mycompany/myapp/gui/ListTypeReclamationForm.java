@@ -64,7 +64,7 @@ public class ListTypeReclamationForm extends BaseForm{
         Label s1 = new Label();
         Label s2 = new Label();
         
-       addTab(swipe,s1,res.getImage("profile-background.jpg"),"","",res);
+       addTab(swipe,s1,res.getImage("no.jpg"),"","",res);
         
         //
         
