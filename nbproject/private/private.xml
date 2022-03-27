@@ -4,11 +4,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/MapForm.java</file>
-            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/AjoutReclamationForm.java</file>
+            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/ModifierTypeReclamationForm.java</file>
+            <file>file:/C:/xampp/htdocs/MbodyUp2/src/Main/MainApp.java</file>
+            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/ListTypeReclamationForm.java</file>
             <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/ModifierReclamationForm.java</file>
-            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/StatistiquePieForm.java</file>
-            <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/ListReclamationForm.java</file>
             <file>file:/C:/xampp/htdocs/MbodyUp2/src/com/mycompany/myapp/gui/BaseForm.java</file>
         </group>
     </open-files>
