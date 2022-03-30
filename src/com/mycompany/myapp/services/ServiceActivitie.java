@@ -199,5 +199,31 @@ public class ServiceActivitie {
            System.out.println("hahah");
         return pictss;
     }
+        public boolean addAct(Activitie act ,String[] Ex) {
+       // System.out.println(t);
+        System.out.println("********");
+       //String url = Statics.BASE_URL + "create?name=" + t.getName() + "&status=" + t.getStatus();
+       String url = Statics.BASE_URL + "addactivity/json";
+    
+       req.setUrl("http://127.0.0.1:8000/addactivity/json");
+       req.setPost(true);
+       req.addArgument("nom_act", "ooo");//act.getNom_Act()
+       req.addArgument("date_act","2022-09-10" );//act.getDate_Act()
+       req.addArgument("temp_act", "10:00:00");//act.getTemp_act()
+       req.addArgument("description_act", "fhfdlhfskh");//act.getDescription_Act()
+       req.addArgument("id_cat", "4" );//Integer.toString(act.getCategory().getId())
+       
+       //req.addArgument("name", act.getName());
+       req.addArgument("exercices", Ex);
+       req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
     
 }

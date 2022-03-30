@@ -7,31 +7,26 @@ package com.mycompany.myapp.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.components.ScaleImageLabel;
-import com.codename1.components.SpanLabel;
 import com.codename1.components.ToastBar;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
-import com.codename1.ui.Component;
 import static com.codename1.ui.Component.BOTTOM;
 import static com.codename1.ui.Component.CENTER;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
-import com.codename1.ui.Form;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
-import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
@@ -45,6 +40,8 @@ import com.mycompany.myapp.services.ServiceExercice;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 
@@ -95,7 +92,7 @@ public class DetailForm extends BaseForm {
         Label spacer2 = new Label();
         Label sp3 = new Label();*/
        Collection <Image> picts = new ArrayList<>();
-        if(act.getImages()== null){
+        if(act.getImages().isEmpty()){
            picts.add(res.getImage("news-item.jpg"));
            
         }else{
@@ -179,22 +176,41 @@ public class DetailForm extends BaseForm {
         Exerciceget(res.getImage("news-item-2.jpg"), e.getNom_Exercice(),e.getDure_Exercice(), e.getDescription_Exercice());
         }
         //////////////////////Commentaire////////////////////
-        showComm(act);
+               
+        
+
+        new Timer().scheduleAtFixedRate(new TimerTask(){
+    @Override
+    public void run(){
+                
+                      Container cnt =new Container();
+
+       showComm(act , cnt);
+        
+        
+    }
+},0,5000);
+        
         TextArea com = new TextArea();
        // TextField com=new TextField("hhh");
         Button send = new Button("send");
+               
+
+        
         addAll(com , send);
         
 //        add(back);
         
       
     }
-    private void showComm(Activitie act){
+    private void showComm(Activitie act , Container cnt){
+                 
+
      ArrayList<Commentaire> com = ServiceCommentaire.getInstance().getAllCommentaires(act.getId());
      
        
       
-       Container cnt = new Container();
+       
        String tit = "*****Commentaire*****";
         cnt.add(tit);
      for (Commentaire c : com){
@@ -211,6 +227,7 @@ public class DetailForm extends BaseForm {
      }
    
     add(cnt);
+   
     }
      private void updateArrowPosition(Button b, Label arrow) {
         arrow.getUnselectedStyle().setMargin(LEFT, b.getX() + b.getWidth() / 2 - arrow.getWidth() / 2);
