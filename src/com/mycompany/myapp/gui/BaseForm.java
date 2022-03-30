@@ -39,7 +39,7 @@ import com.codename1.ui.util.Resources;
  * @author Shai Almog
  */
 public class BaseForm extends Form {
-
+private Resources theme;
     public BaseForm() {
     }
 
@@ -81,9 +81,13 @@ public class BaseForm extends Form {
                 FlowLayout.encloseCenterBottom(
                         new Label(res.getImage("profile-pic.jpg"), "PictureWhiteBackgrond"))
         ));
-        
+        Form current;
         tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_UPDATE, e -> new NewsfeedForm(res).show());
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_SETTINGS, e -> new ProfileForm(res).show());
+        tb.addMaterialCommandToSideMenu("Front", FontImage.MATERIAL_MODE_STANDBY, e -> new ListProduitForm(res).show());
+        tb.addMaterialCommandToSideMenu("Back", FontImage.MATERIAL_MODE_COMMENT, e -> new ListCategoriesForm(res).show());
+        tb.addMaterialCommandToSideMenu("Map", FontImage.MATERIAL_MODE_NIGHT, e -> new MapForm());
+        tb.addMaterialCommandToSideMenu("Statistique", FontImage.MATERIAL_MODE_EDIT, e -> new StatistiquePieForm(res).show());
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> new WalkthruForm(res).show());
     }
 }
