@@ -35,7 +35,9 @@ public class ModifierReclamationForm extends BaseForm{
         
         super.addSideMenu(res);
         TextField nom = new TextField(r.getNom() , "nom" , 20 , TextField.ANY);
+        nom.setUIID("TextFieldBlack");
         TextField description = new TextField(r.getDescription(), "description" , 20 , TextField.ANY);
+        description.setUIID("TextFieldBlack");
         
         Button btnModifier = new Button("Modifier");
         btnModifier.setUIID("Button");
