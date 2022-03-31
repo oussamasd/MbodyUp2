@@ -42,7 +42,7 @@ public class ServiceProduit {
     
     public void ajouterProduits(Produit produits)
     {
-        String url =Statics.BASE_URL+"/addProduits?nom="+produits.getNom()+"&prix="+produits.getPrix()+"&quantite"+produits.getQuantite();
+        String url =Statics.BASE_URL+"/addProduits?nom="+produits.getNom()+"&prix="+produits.getPrix()+"&quantite="+produits.getQuantite();
         
         req.setUrl(url);
         req.addResponseListener((e) -> {
@@ -80,7 +80,7 @@ public class ServiceProduit {
                         float quantite = Float.parseFloat(obj.get("quantite").toString());
                         String nom = obj.get("nom").toString();
                         
-                         String description = obj.get("description").toString();
+                         
                         
                          re.setId((int)id);
                          re.setNom(nom);

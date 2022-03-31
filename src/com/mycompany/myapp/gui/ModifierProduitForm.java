@@ -34,9 +34,13 @@ public class ModifierProduitForm extends BaseForm{
         getContentPane().setScrollVisible(false);
         
         super.addSideMenu(res);
-        TextField nom = new TextField(r.getNom() , "nom" , 20 , TextField.ANY);
+        TextField nom = new TextField(r.getNom() , "nom" , 20 , TextField.ANY); 
+        nom.setUIID("TextFieldBlack");
+        
          TextField prix = new TextField( "prix" ,"");
+          prix.setUIID("TextFieldBlack");
           TextField quantite = new TextField("quantite" ,"");
+           quantite.setUIID("TextFieldBlack");
   
         
         Button btnModifier = new Button("Modifier");
