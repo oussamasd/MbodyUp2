@@ -18,6 +18,7 @@ import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -199,22 +200,24 @@ public class ServiceActivitie {
            System.out.println("hahah");
         return pictss;
     }
-        public boolean addAct(Activitie act ,String[] Ex) {
+        public boolean addAct(Activitie act ,String[] Ex , String ch) {
        // System.out.println(t);
         System.out.println("********");
        //String url = Statics.BASE_URL + "create?name=" + t.getName() + "&status=" + t.getStatus();
        String url = Statics.BASE_URL + "addactivity/json";
     
-       req.setUrl("http://127.0.0.1:8000/addactivity/json");
+       req.setUrl("http://127.0.0.1:8000/newactivity/json");
        req.setPost(true);
-       req.addArgument("nom_act", "ooo");//act.getNom_Act()
-       req.addArgument("date_act","2022-09-10" );//act.getDate_Act()
-       req.addArgument("temp_act", "10:00:00");//act.getTemp_act()
-       req.addArgument("description_act", "fhfdlhfskh");//act.getDescription_Act()
-       req.addArgument("id_cat", "4" );//Integer.toString(act.getCategory().getId())
+       req.addArgument("nom_act",act.getNom_Act() );//act.getNom_Act()
+       req.addArgument("date_act",act.getDate_Act() );//act.getDate_Act()
+       req.addArgument("temp_act", act.getTemp_act());//act.getTemp_act()
+       req.addArgument("description_act", act.getDescription_Act());//act.getDescription_Act()
+       req.addArgument("id_cat", act.getCategory().getNom_Cat() );//Integer.toString(act.getCategory().getId())
+     
        
        //req.addArgument("name", act.getName());
-       req.addArgument("exercices", Ex);
+       req.addArgument("exercices", ch);
+       //req.addArgumentArray("exercices", Ex);
        req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
@@ -225,5 +228,53 @@ public class ServiceActivitie {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
+         public boolean updateAct(Activitie act ,String[] Ex , String ch) {
+       // System.out.println(t);
+        System.out.println("********");
+       //String url = Statics.BASE_URL + "create?name=" + t.getName() + "&status=" + t.getStatus();
+       String url = Statics.BASE_URL + "addactivity/json";
+    
+       req.setUrl("http://127.0.0.1:8000/upactivity/json/"+act.getId());
+       req.setPost(false);
+       req.addArgument("nom_act",act.getNom_Act() );//act.getNom_Act()
+       req.addArgument("date_act",act.getDate_Act() );//act.getDate_Act()
+       req.addArgument("temp_act", act.getTemp_act());//act.getTemp_act()
+       req.addArgument("description_act", act.getDescription_Act());//act.getDescription_Act()
+       req.addArgument("id_cat", act.getCategory().getNom_Cat() );//Integer.toString(act.getCategory().getId())
+     
+       
+       //req.addArgument("name", act.getName());
+       req.addArgument("exercices", ch);
+       //req.addArgumentArray("exercices", Ex);
+       req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200; //Code HTTP 200 OK
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+        public HashMap<String,Double> statcat(){
+            
+             HashMap<String , Double> showCat = new HashMap();
+         
+        for(Activitie act : ServiceActivitie.getInstance().getAllActivity()){
+            double mp = 1;
+        if(showCat.containsKey(act.getCategory().getNom_Cat()))
+        {
+            Double n =showCat.get(act.getCategory().getNom_Cat())+1;
+            showCat.put(act.getCategory().getNom_Cat(), n);
+            
+            
+        }
+        else{
+            showCat.put(act.getCategory().getNom_Cat(), mp);
+        }
+        
+        }
+        return showCat;
+        }
     
 }

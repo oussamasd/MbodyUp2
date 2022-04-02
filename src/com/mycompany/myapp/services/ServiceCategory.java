@@ -78,7 +78,7 @@ public class ServiceCategory {
         //String url = Statics.BASE_URL+"/tasks/";
         String url = Statics.BASE_URL+"category";
         System.out.println("===>"+url);
-        req.setUrl("http://localhost:8000/category");
+        req.setUrl("http://127.0.0.1:8000/category");
         //req.setUrl(url);
         req.setPost(false);
            System.out.println(req.getUrl());

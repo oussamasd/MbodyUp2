@@ -164,10 +164,12 @@ public class DetailForm extends BaseForm {
             }
         });
                 
-                
+         Button update = new Button("update");
+         update.addActionListener(l->new UpdateActForm(res, act).show());
         
        // Component.setSameSize(radioContainer, spacer1, spacer2 );
         add(LayeredLayout.encloseIn( swipe, radioContainer));
+        add(update);
         add(nom);
         add(details);
         add(desc);

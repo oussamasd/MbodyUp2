@@ -109,4 +109,22 @@ public class ServiceExercice {
            System.out.println("hahah");
         return exercices;
     }
+       public ArrayList<Exercice> ShowAllExercices(){
+        req = new ConnectionRequest();
+        //String url = Statics.BASE_URL+"/tasks/";
+        String url = Statics.BASE_URL+"exercice";
+        System.out.println("===>"+url);
+        req.setUrl("http://127.0.0.1:8000/exercices");
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                exercices = parseExercice(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+           System.out.println("hahah");
+        return exercices;
+    }
 }
